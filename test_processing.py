@@ -29,7 +29,7 @@ class ProcessingTests(unittest.TestCase):
     def tearDown(self):
         self.temp.cleanup()
 
-    def test_five_attempt_run_and_five_cumulative_successes(self):
+    def test_run_limit_and_success_count_carry_over_to_five(self):
         first = FakeSender(["ok"] * 5)
         self.assertEqual(run_send(first, self.state), 0)
         self.assertEqual(len(first.calls), 5)
@@ -45,7 +45,7 @@ class ProcessingTests(unittest.TestCase):
         run_send(later, self.state)
         self.assertEqual(later.calls, self.links[5:])
 
-    def test_failure_does_not_increment_success_and_three_failures_skip(self):
+    def test_failure_does_not_increase_success_and_three_failures_skip(self):
         run_send(FakeSender(["fail"] * 5), self.state)
         self.assertEqual(load_successes(self.state), {})
         self.assertEqual(load_failures(self.state)[self.links[0]], 1)
@@ -56,7 +56,7 @@ class ProcessingTests(unittest.TestCase):
         run_send(later, self.state)
         self.assertNotIn(self.links[0], later.calls)
 
-    def test_old_done_log_is_respected_and_unchanged(self):
+    def test_legacy_done_links_stay_complete_and_unchanged(self):
         done_path = os.path.join(self.state, "done_links.txt")
         with open(done_path, "w", encoding="utf-8") as file:
             file.write(self.links[0] + "\n")
@@ -69,7 +69,7 @@ class ProcessingTests(unittest.TestCase):
         with open(done_path, "rb") as file:
             self.assertEqual(file.read(), original)
 
-    def test_only_failures_counter_increases_after_failed_requests(self):
+    def test_failure_only_updates_failure_counter(self):
         run_send(FakeSender(["fail"] * 5), self.state)
         self.assertEqual(load_successes(self.state), {})
         self.assertEqual(load_failures(self.state)[self.links[0]], 1)
