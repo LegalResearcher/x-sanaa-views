@@ -22,7 +22,7 @@ class ProcessingTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
         self.state = self.temp.name
-        self.links = [f"https://x.com/shmsan_news/status/{number}" for number in range(1, 8)]
+        self.links = [f"https://x.com/SanaaPressAgenc/status/{number}" for number in range(1, 8)]
         with open(os.path.join(self.state, "telegram_links.txt"), "w", encoding="utf-8") as file:
             file.write("\n".join(self.links) + "\n")
 

@@ -24,7 +24,7 @@ LINKS_PATH = os.path.join(STATE_DIR, "telegram_links.txt")        # طابور �
 PROCESSED_PATH = os.path.join(STATE_DIR, "processed_links.txt")   # روابط تم سحبها
 DONE_PATH = os.path.join(STATE_DIR, "done_links.txt")             # روابط تم تنفيذها
 
-X_HANDLE = "shmsan_news"   # حساب تويتر/X (بدون @)
+X_HANDLE = "SanaaPressAgenc"   # حساب تويتر/X (بدون @)
 # مرايا Nitter لقراءة الحساب (قابلة للتغيير من متغير البيئة NITTER_INSTANCES مفصولة بفواصل)
 NITTER_INSTANCES = [
     h.strip()
